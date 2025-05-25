@@ -171,6 +171,7 @@ public class BitcoinJobManager : BitcoinJobManagerBase<BitcoinJob>
                     BlockchainStats.NetworkDifficulty = job.Difficulty;
                     BlockchainStats.NextNetworkTarget = blockTemplate.Target;
                     BlockchainStats.NextNetworkBits = blockTemplate.Bits;
+                    BlockchainStats.BlockReward = (double)blockTemplate.CoinbaseValue / 100000000;
                 }
 
                 else

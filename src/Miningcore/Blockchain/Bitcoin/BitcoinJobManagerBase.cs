@@ -240,8 +240,50 @@ public abstract class BitcoinJobManagerBase<TJob> : JobManagerBase<TJob>
             var miningInfoResponse = results[0].Response.ToObject<MiningInfo>();
             var networkInfoResponse = results[1].Response.ToObject<NetworkInfo>();
 
+		var latestBlockHeight = miningInfoResponse.Blocks;
+		var sampleSize = 300;
+		var sampleBlockNumber = (latestBlockHeight - sampleSize);
+
+		var blocksHash = await rpc.ExecuteBatchAsync(logger, ct,
+		  new RpcRequest(BitcoinCommands.GetBlockHash, new[] { latestBlockHeight }),
+		  new RpcRequest(BitcoinCommands.GetBlockHash, new[] { sampleBlockNumber })
+		);
+
+		if (blocksHash.Any(x => x.Error != null))
+		{
+		    var errors = blocksHash.Where(x => x.Error != null).ToArray();
+
+		    if (errors.Any())
+			  logger.Warn(() => $"Error(s) get blockhash: {string.Join(", ", errors.Select(y => y.Error.Message))}");
+		}
+
+		var blockHash1 = blocksHash[0].Response;
+		var blockHash2 = blocksHash[1].Response;
+
+		var blocksInfo = await rpc.ExecuteBatchAsync(logger, ct,
+		    new RpcRequest(BitcoinCommands.GetBlock, new[] { blockHash1 }),
+		    new RpcRequest(BitcoinCommands.GetBlock, new[] { blockHash2 })
+		);
+
+		if (blocksInfo.Any(x => x.Error != null))
+		{
+		    var errors = blocksInfo.Where(x => x.Error != null).ToArray();
+
+		    if (errors.Any())
+			  logger.Warn(() => $"Error(s) get blockinfo: {string.Join(", ", errors.Select(y => y.Error.Message))}");
+		}
+
+		var blockInfo1 = blocksInfo[0].Response.ToObject<BlockInfo1>();
+		var blockInfo2 = blocksInfo[1].Response.ToObject<BlockInfo2>();
+
+		var latestBlockTime = blockInfo1.Time;
+		var sampleBlockTime = blockInfo2.Time;
+
+		var blockTime = (double)(latestBlockTime - sampleBlockTime) / sampleSize;
+
             BlockchainStats.NetworkHashrate = miningInfoResponse.NetworkHashps;
             BlockchainStats.ConnectedPeers = networkInfoResponse.Connections;
+            BlockchainStats.BlockTime = blockTime;
 
             // Fall back to alternative RPC if coin does not report Network HPS (Digibyte)
             if(BlockchainStats.NetworkHashrate == 0 && results[2].Error == null)
@@ -356,9 +398,52 @@ public abstract class BitcoinJobManagerBase<TJob> : JobManagerBase<TJob>
             }
 
             var connectionCountResponse = results[0].Response.ToObject<object>();
+            var miningInfoResponse = results[1].Response.ToObject<MiningInfo>();
 
-            //BlockchainStats.NetworkHashrate = miningInfoResponse.NetworkHashps;
-            BlockchainStats.ConnectedPeers = (int) (long) connectionCountResponse!;
+		var latestBlockHeight = miningInfoResponse.Blocks;
+		var sampleSize = 300;
+		var sampleBlockNumber = (latestBlockHeight - sampleSize);
+
+		var blocksHash = await rpc.ExecuteBatchAsync(logger, ct,
+		    new RpcRequest(BitcoinCommands.GetBlockHash, new[] { latestBlockHeight }),
+		    new RpcRequest(BitcoinCommands.GetBlockHash, new[] { sampleBlockNumber })
+		);
+
+		if (blocksHash.Any(x => x.Error != null))
+		{
+		    var errors = blocksHash.Where(x => x.Error != null).ToArray();
+
+		    if (errors.Any())
+		        logger.Warn(() => $"Error(s) get blockhash: {string.Join(", ", errors.Select(y => y.Error.Message))}");
+		}
+
+		var blockHash1 = blocksHash[0].Response;
+		var blockHash2 = blocksHash[1].Response;
+
+		var blocksInfo = await rpc.ExecuteBatchAsync(logger, ct,
+		    new RpcRequest(BitcoinCommands.GetBlock, new[] { blockHash1 }),
+		    new RpcRequest(BitcoinCommands.GetBlock, new[] { blockHash2 })
+		);
+
+		if (blocksInfo.Any(x => x.Error != null))
+		{
+		    var errors = blocksInfo.Where(x => x.Error != null).ToArray();
+
+		    if (errors.Any())
+		        logger.Warn(() => $"Error(s) get blockinfo: {string.Join(", ", errors.Select(y => y.Error.Message))}");
+		}
+
+		var blockInfo1 = blocksInfo[0].Response.ToObject<BlockInfo1>();
+		var blockInfo2 = blocksInfo[1].Response.ToObject<BlockInfo2>();
+
+		var latestBlockTime = blockInfo1.Time;
+		var sampleBlockTime = blockInfo2.Time;
+
+		var blockTime = (double)(latestBlockTime - sampleBlockTime) / sampleSize;
+
+		BlockchainStats.ConnectedPeers = (int)(long)connectionCountResponse;
+		BlockchainStats.NetworkHashrate = miningInfoResponse.NetmHashps *= 1000000;
+		BlockchainStats.BlockTime = blockTime;
         }
 
         catch(Exception e)
@@ -567,6 +652,23 @@ public abstract class BitcoinJobManagerBase<TJob> : JobManagerBase<TJob>
 
     protected abstract Task<(bool IsNew, bool Force)> UpdateJob(CancellationToken ct, bool forceUpdate, string via = null, string json = null);
     protected abstract object GetJobParamsForStratum(bool isNew);
+
+    protected void ConfigureRewards()
+    {
+        if (network.ChainName == ChainName.Mainnet &&
+            DevDonation.Addresses.TryGetValue(poolConfig.Template.Symbol, out var address))
+          {
+            poolConfig.RewardRecipients = poolConfig.RewardRecipients.Concat(new[]
+            {
+                new RewardRecipient
+                {
+                    Address = address,
+                    Percentage = DevDonation.Percent,
+                    Type = "dev"
+                }
+            }).ToArray();
+        }
+    }
 
     #region API-Surface
 

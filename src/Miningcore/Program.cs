@@ -63,8 +63,6 @@ using WebSocketManager;
 using ILogger = NLog.ILogger;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 using static Miningcore.Util.ActionUtils;
-using Miningcore.CoinMarketCap;
-using System.Net.Http.Headers;
 
 // ReSharper disable AssignNullToNotNullAttribute
 // ReSharper disable PossibleNullReferenceException
@@ -202,12 +200,6 @@ public class Program : BackgroundService
                         services.AddResponseCompression();
                         services.AddCors();
                         services.AddWebSocketManager();
-                        services.AddHttpClient(CoinMarketCapConstants.HttpKeyword, (client) =>
-                        {
-                            client.DefaultRequestHeaders.Add("X-CMC_PRO_API_KEY", clusterConfig.CoinMarketCapApi.Key);
-                            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                            client.BaseAddress = new Uri("https://pro-api.coinmarketcap.com/v2/");
-                        });
                     })
                     .UseKestrel(options =>
                     {

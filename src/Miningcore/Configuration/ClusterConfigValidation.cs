@@ -307,10 +307,6 @@ public partial class PoolConfig
 {
 }
 
-public partial class CoinMarketCapApi
-{
-}
-
 public partial class ClusterConfig
 {
     public void Validate()

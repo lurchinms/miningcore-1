@@ -7,5 +7,6 @@ public class MiningInfo
     public int CurrentBlockWeight { get; set; }
     public double Difficulty { get; set; }
     public double NetworkHashps { get; set; }
+    public double NetmHashps { get; set; }
     public string Chain { get; set; }
 }
