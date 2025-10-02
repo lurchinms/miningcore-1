@@ -378,3 +378,7 @@ public partial class PoolConfig
     [JsonIgnore]
     public CoinTemplate Template { get; set; }
 }
+
+public partial class CoinMarketCapApi
+{
+}

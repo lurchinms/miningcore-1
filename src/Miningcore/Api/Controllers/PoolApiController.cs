@@ -50,7 +50,9 @@ public class PoolApiController : ApiControllerBase
     #region Actions
 
     [HttpGet]
-    public async Task<GetPoolsResponse> Get(CancellationToken ct, [FromQuery] uint topMinersRange = 24)
+    public async Task<IActionResult> Get(CancellationToken ct,
+        [FromServices] CoinMarketCap.CoinMarketCapService service,
+        [FromQuery] uint topMinersRange = 24)
     {
         var response = new GetPoolsResponse
         {
@@ -92,8 +94,34 @@ public class PoolApiController : ApiControllerBase
                 return result;
             }).ToArray())
         };
-
-        return response;
+        if(clusterConfig.CoinMarketCapApi.Enabled)
+        {
+            var symbols = string.Join(",", response?.Pools?.Select(Q => Q.Coin.Symbol));
+            if(!string.IsNullOrWhiteSpace(symbols))
+            {
+                var result = await service.GetCryptoQuoteAsync(symbols);
+                foreach(var item in response.Pools)
+                {
+                    if(result.Data.TryGetValue(item.Coin.Symbol, out var marketCapData))
+                    {
+                        var marketData = marketCapData.Where(Q => string.Equals(item.Coin.Symbol, Q.Symbol, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                        if(marketData?.Quote != null && marketData.Quote.TryGetValue("USD", out var quote) && quote?.Price != null && quote.Price.HasValue)
+                        {
+                            item.Coin.Price = Math.Round(quote.Price.Value, 4);
+                            item.Coin.Logo = marketData.Logo;
+                            item.Coin.VolumeChange24H = quote.VolumeChange24H.HasValue ? Math.Round(quote.VolumeChange24H.Value, 4) : "n/a";
+                        }
+                        else
+                        {
+                            item.Coin.Price = "n/a";
+                            item.Coin.Logo = "n/a";
+                            item.Coin.VolumeChange24H = "n/a";
+                        }
+                    }
+                }
+            }
+        }
+        return Ok(response);
     }
 
     [HttpGet("/api/help")]

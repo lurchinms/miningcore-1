@@ -35,6 +35,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IO;
 using Miningcore.Nicehash;
 using Miningcore.Pushover;
+using Miningcore.CoinMarketCap;
 
 namespace Miningcore;
 
@@ -123,6 +124,9 @@ public class AutofacModule : Module
             .SingleInstance();
 
         builder.RegisterType<NicehashService>()
+            .SingleInstance();
+
+        builder.RegisterType<CoinMarketCapService>()
             .SingleInstance();
 
         builder.RegisterType<PushoverClient>()

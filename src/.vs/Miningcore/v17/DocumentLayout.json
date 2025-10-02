@@ -1,0 +1,270 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A427248A-B5E1-4808-9883-BC2AD68EE997}|Miningcore\\Miningcore.csproj|c:\\.freelance\\miningcore-2025-04-19\\miningcore\\src\\miningcore\\coinmarketcap\\coinmarketcapservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A427248A-B5E1-4808-9883-BC2AD68EE997}|Miningcore\\Miningcore.csproj|solutionrelative:miningcore\\coinmarketcap\\coinmarketcapservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A427248A-B5E1-4808-9883-BC2AD68EE997}|Miningcore\\Miningcore.csproj|c:\\.freelance\\miningcore-2025-04-19\\miningcore\\src\\miningcore\\coinmarketcap\\coinmarketcapconstants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A427248A-B5E1-4808-9883-BC2AD68EE997}|Miningcore\\Miningcore.csproj|solutionrelative:miningcore\\coinmarketcap\\coinmarketcapconstants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A427248A-B5E1-4808-9883-BC2AD68EE997}|Miningcore\\Miningcore.csproj|c:\\.freelance\\miningcore-2025-04-19\\miningcore\\src\\miningcore\\api\\responses\\getcoinmarketcapresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A427248A-B5E1-4808-9883-BC2AD68EE997}|Miningcore\\Miningcore.csproj|solutionrelative:miningcore\\api\\responses\\getcoinmarketcapresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A427248A-B5E1-4808-9883-BC2AD68EE997}|Miningcore\\Miningcore.csproj|c:\\.freelance\\miningcore-2025-04-19\\miningcore\\src\\miningcore\\api\\requests\\getcoinmarketcaprequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A427248A-B5E1-4808-9883-BC2AD68EE997}|Miningcore\\Miningcore.csproj|solutionrelative:miningcore\\api\\requests\\getcoinmarketcaprequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A427248A-B5E1-4808-9883-BC2AD68EE997}|Miningcore\\Miningcore.csproj|c:\\.freelance\\miningcore-2025-04-19\\miningcore\\src\\miningcore\\api\\controllers\\poolapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A427248A-B5E1-4808-9883-BC2AD68EE997}|Miningcore\\Miningcore.csproj|solutionrelative:miningcore\\api\\controllers\\poolapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A427248A-B5E1-4808-9883-BC2AD68EE997}|Miningcore\\Miningcore.csproj|c:\\.freelance\\miningcore-2025-04-19\\miningcore\\src\\miningcore\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A427248A-B5E1-4808-9883-BC2AD68EE997}|Miningcore\\Miningcore.csproj|solutionrelative:miningcore\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A427248A-B5E1-4808-9883-BC2AD68EE997}|Miningcore\\Miningcore.csproj|c:\\.freelance\\miningcore-2025-04-19\\miningcore\\src\\miningcore\\autofacmodule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A427248A-B5E1-4808-9883-BC2AD68EE997}|Miningcore\\Miningcore.csproj|solutionrelative:miningcore\\autofacmodule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A427248A-B5E1-4808-9883-BC2AD68EE997}|Miningcore\\Miningcore.csproj|c:\\.freelance\\miningcore-2025-04-19\\miningcore\\src\\miningcore\\api\\responses\\getpoolsresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A427248A-B5E1-4808-9883-BC2AD68EE997}|Miningcore\\Miningcore.csproj|solutionrelative:miningcore\\api\\responses\\getpoolsresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 52,
+          "SelectedChildIndex": 20,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GetCoinMarketCapResponse.cs",
+              "DocumentMoniker": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\Miningcore\\Api\\Responses\\GetCoinMarketCapResponse.cs",
+              "RelativeDocumentMoniker": "Miningcore\\Api\\Responses\\GetCoinMarketCapResponse.cs",
+              "ToolTip": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\Miningcore\\Api\\Responses\\GetCoinMarketCapResponse.cs",
+              "RelativeToolTip": "Miningcore\\Api\\Responses\\GetCoinMarketCapResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T04:29:03.727Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:135:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:136:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:137:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:140:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:143:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:140:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:139:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:5:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c9c0ae26-aa77-11d2-b3f0-0000f87570ee}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CoinMarketCapConstants.cs",
+              "DocumentMoniker": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\Miningcore\\CoinMarketCap\\CoinMarketCapConstants.cs",
+              "RelativeDocumentMoniker": "Miningcore\\CoinMarketCap\\CoinMarketCapConstants.cs",
+              "ToolTip": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\Miningcore\\CoinMarketCap\\CoinMarketCapConstants.cs",
+              "RelativeToolTip": "Miningcore\\CoinMarketCap\\CoinMarketCapConstants.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T04:26:40.679Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CoinMarketCapService.cs",
+              "DocumentMoniker": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\Miningcore\\CoinMarketCap\\CoinMarketCapService.cs",
+              "RelativeDocumentMoniker": "Miningcore\\CoinMarketCap\\CoinMarketCapService.cs",
+              "ToolTip": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\Miningcore\\CoinMarketCap\\CoinMarketCapService.cs",
+              "RelativeToolTip": "Miningcore\\CoinMarketCap\\CoinMarketCapService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T04:26:34.827Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GetCoinMarketCapRequest.cs",
+              "DocumentMoniker": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\Miningcore\\Api\\Requests\\GetCoinMarketCapRequest.cs",
+              "RelativeDocumentMoniker": "Miningcore\\Api\\Requests\\GetCoinMarketCapRequest.cs",
+              "ToolTip": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\Miningcore\\Api\\Requests\\GetCoinMarketCapRequest.cs",
+              "RelativeToolTip": "Miningcore\\Api\\Requests\\GetCoinMarketCapRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T04:28:03.997Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\Miningcore\\Program.cs",
+              "RelativeDocumentMoniker": "Miningcore\\Program.cs",
+              "ToolTip": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\Miningcore\\Program.cs",
+              "RelativeToolTip": "Miningcore\\Program.cs",
+              "ViewState": "AgIAAKwAAAAAAAAAAAArwNAAAABiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T04:25:33.962Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AutofacModule.cs",
+              "DocumentMoniker": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\Miningcore\\AutofacModule.cs",
+              "RelativeDocumentMoniker": "Miningcore\\AutofacModule.cs",
+              "ToolTip": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\Miningcore\\AutofacModule.cs",
+              "RelativeToolTip": "Miningcore\\AutofacModule.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHkAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T04:25:05.288Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PoolApiController.cs",
+              "DocumentMoniker": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\Miningcore\\Api\\Controllers\\PoolApiController.cs",
+              "RelativeDocumentMoniker": "Miningcore\\Api\\Controllers\\PoolApiController.cs",
+              "ToolTip": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\Miningcore\\Api\\Controllers\\PoolApiController.cs",
+              "RelativeToolTip": "Miningcore\\Api\\Controllers\\PoolApiController.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwGkAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T04:18:57.843Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GetPoolsResponse.cs",
+              "DocumentMoniker": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\Miningcore\\Api\\Responses\\GetPoolsResponse.cs",
+              "RelativeDocumentMoniker": "Miningcore\\Api\\Responses\\GetPoolsResponse.cs",
+              "ToolTip": "C:\\.Freelance\\Miningcore-2025-04-19\\miningcore\\src\\Miningcore\\Api\\Responses\\GetPoolsResponse.cs",
+              "RelativeToolTip": "Miningcore\\Api\\Responses\\GetPoolsResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T04:22:52.812Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 52,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 50,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1409472935:0:{83107a3e-496a-485e-b455-16ddb978e55e}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:145:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:146:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 185,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:147:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:148:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
