@@ -26,8 +26,8 @@ public class AstrixJob : KaspaJob
 
         BlockTemplate.Header.Nonce = Convert.ToUInt64(nonce, 16);
 
-        var prePowHashBytes = SerializeHeader(BlockTemplate.Header, true);
-        var coinbaseBytes = SerializeCoinbase(prePowHashBytes, BlockTemplate.Header.Timestamp, BlockTemplate.Header.Nonce);
+        Span<byte> coinbaseBytes = stackalloc byte[32];
+        SerializeCoinbase(prePowHashBytes, BlockTemplate.Header.Timestamp, BlockTemplate.Header.Nonce, coinbaseBytes);
 
         Span<byte> blake3Bytes = stackalloc byte[32];
         blake3Hasher.Digest(coinbaseBytes, blake3Bytes);
@@ -35,8 +35,11 @@ public class AstrixJob : KaspaJob
         Span<byte> sha3_256Bytes = stackalloc byte[32];
         sha3_256Hasher.Digest(blake3Bytes, sha3_256Bytes);
 
+        Span<byte> matrixBytes = stackalloc byte[32];
+        ComputeCoinbase(prePowHashBytes, sha3_256Bytes, matrixBytes);
+
         Span<byte> hashCoinbaseBytes = stackalloc byte[32];
-        shareHasher.Digest(ComputeCoinbase(prePowHashBytes, sha3_256Bytes), hashCoinbaseBytes);
+        shareHasher.Digest(matrixBytes, hashCoinbaseBytes);
 
         var targetHashCoinbaseBytes = new Target(new BigInteger(hashCoinbaseBytes.ToNewReverseArray(), true, true));
         var hashCoinbaseBytesValue = targetHashCoinbaseBytes.ToUInt256();
@@ -81,7 +84,8 @@ public class AstrixJob : KaspaJob
 
         if(isBlockCandidate)
         {
-            var hashBytes = SerializeHeader(BlockTemplate.Header, false);
+            Span<byte> hashBytes = stackalloc byte[32];
+            SerializeHeader(BlockTemplate.Header, hashBytes, false);
 
             result.IsBlockCandidate = true;
             result.BlockHash = hashBytes.ToHexString();

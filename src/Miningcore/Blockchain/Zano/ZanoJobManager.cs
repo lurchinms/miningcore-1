@@ -168,7 +168,7 @@ public class ZanoJobManager : JobManagerBase<ZanoJob>
             {
                 var info = response.Response.ToObject<GetInfoResponse>();
 
-                BlockchainStats.NetworkHashrate = info.Difficulty / ZanoConstants.DifficultyPowTarget;
+                BlockchainStats.NetworkHashrate = (double) info.Difficulty / coin.DifficultyTarget;
                 BlockchainStats.ConnectedPeers = info.OutgoingConnectionsCount + info.IncomingConnectionsCount;
             }
         }

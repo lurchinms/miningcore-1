@@ -37,6 +37,7 @@ public class HandshakeJob
     protected double shareMultiplier;
     protected int extraNoncePlaceHolderLength;
     protected IHashAlgorithm headerHasher;
+    protected IHashAlgorithm shareHasher;
     protected string txComment;
 
     protected Network network;
@@ -554,7 +555,7 @@ public class HandshakeJob
         rightPaddingBytes.CopyTo(shareRightPaddingBytes[shareBytes.Length..]);
 
         Span<byte> shareRightBytes = stackalloc byte[32];
-        coin.ShareHasherValue.Digest(shareRightPaddingBytes, shareRightBytes);
+        shareHasher.Digest(shareRightPaddingBytes, shareRightBytes);
         
         var centerPaddingBytes = (Span<byte>) PaddingPreviousBlockWithTreeRoot(32);
         Span<byte> shareLeftCenterPaddingHeaderRighthBytes = stackalloc byte[shareLeftBytes.Length + centerPaddingBytes.Length + shareRightBytes.Length];
@@ -669,11 +670,10 @@ public class HandshakeJob
     protected byte[] ZeroNonce { get; private set; } = new byte[24] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
     public virtual void Init(HandshakeBlockTemplate blockTemplate, string jobId,
-        PoolConfig pc, BitcoinPoolConfigExtra extraPoolConfig,
-        ClusterConfig cc, IMasterClock clock,
-        string poolAddress, Network network,
-        double shareMultiplier, IHashAlgorithm coinbaseHasher,
-        IHashAlgorithm headerHasher, IHashAlgorithm blockHasher)
+        PoolConfig pc, BitcoinPoolConfigExtra extraPoolConfig, ClusterConfig cc,
+        IMasterClock clock, string poolAddress, Network network, double shareMultiplier,
+        IHashAlgorithm coinbaseHasher, IHashAlgorithm headerHasher,
+        IHashAlgorithm shareHasher, IHashAlgorithm blockHasher)
     {
         Contract.RequiresNonNull(blockTemplate);
         Contract.RequiresNonNull(pc);
@@ -681,6 +681,7 @@ public class HandshakeJob
         Contract.RequiresNonNull(poolAddress);
         Contract.RequiresNonNull(coinbaseHasher);
         Contract.RequiresNonNull(headerHasher);
+        Contract.RequiresNonNull(shareHasher);
         Contract.RequiresNonNull(blockHasher);
         Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(jobId));
 
@@ -704,6 +705,7 @@ public class HandshakeJob
         
         this.coinbaseHasher = coinbaseHasher;
         this.headerHasher = headerHasher;
+        this.shareHasher = shareHasher;
         this.blockHasher = blockHasher;
 
         if(!string.IsNullOrEmpty(BlockTemplate.Target))

@@ -20,8 +20,6 @@ public static class XelisUtils
 
         if(padLength > 0)
             targetBytes.CopyTo(paddedBytes[padLength..]);
-        else
-            targetBytes.Slice(targetBytes.Length - paddedBytes.Length, paddedBytes.Length).CopyTo(paddedBytes);
 
         return paddedBytes.ToArray();
     }

@@ -455,7 +455,7 @@ public class NexaPool : PoolBase
 
         if(connection.Context.ApplyPendingDifficulty())
         {
-            var minerJobParams = CreateWorkerJob(connection, true);
+            var minerJobParams = CreateWorkerJob(connection, false);
 
             await connection.NotifyAsync(BitcoinStratumMethods.SetDifficulty, new object[] { connection.Context.Difficulty });
             await connection.NotifyAsync(BitcoinStratumMethods.MiningNotify, minerJobParams);

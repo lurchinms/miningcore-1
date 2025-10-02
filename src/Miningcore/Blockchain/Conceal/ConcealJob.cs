@@ -73,8 +73,6 @@ public class ConcealJob
 
         if(padLength > 0)
             bytes.CopyTo(padded.Slice(padLength, bytes.Length));
-        else
-            bytes.Slice(bytes.Length - padded.Length, padded.Length).CopyTo(padded);
 
         padded = padded[..size];
         padded.Reverse();

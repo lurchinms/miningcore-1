@@ -52,6 +52,9 @@ public enum CoinFamily
     [EnumMember(Value = "progpow")]
     Progpow,
 
+    [EnumMember(Value = "satoshicash")]
+    Satoshicash,
+
     [EnumMember(Value = "warthog")]
     Warthog,
 
@@ -145,6 +148,11 @@ public abstract partial class CoinTemplate
     [JsonProperty(Order = -9)]
     public string Telegram { get; set; }
 
+    /// Github Link
+    /// </summary>
+    [JsonProperty(Order = -9)]
+    public string Github { get; set; }
+
     /// <summary>
     /// Arbitrary extension data
     /// </summary>
@@ -169,6 +177,7 @@ public abstract partial class CoinTemplate
         {CoinFamily.Kaspa, typeof(KaspaCoinTemplate)},
         {CoinFamily.Nexa, typeof(BitcoinTemplate)},
         {CoinFamily.Progpow, typeof(ProgpowCoinTemplate)},
+        {CoinFamily.Satoshicash, typeof(BitcoinTemplate)},
         {CoinFamily.Warthog, typeof(WarthogCoinTemplate)},
         {CoinFamily.Xelis, typeof(XelisCoinTemplate)},
         {CoinFamily.Zano, typeof(ZanoCoinTemplate)},
@@ -255,6 +264,18 @@ public partial class BitcoinTemplate : CoinTemplate
 
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool HasCoinbaseStakingReward { get; set; }
+
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool HasCommunity { get; set; }
+
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool HasDataMining { get; set; }
+
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool HasDeveloper { get; set; }
+
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool HasRandomXSCash { get; set; }
 
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
     [DefaultValue(1.0d)]
@@ -385,6 +406,12 @@ public enum CryptonightHashType
 
     [EnumMember(Value = "randomarq")]
     RandomARQ,
+
+    [EnumMember(Value = "panthera")]
+    Panthera,
+
+    [EnumMember(Value = "randomxscash")]
+    RandomXSCash,
 
     [EnumMember(Value = "cn0")]
     Cryptonight0,

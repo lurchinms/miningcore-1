@@ -36,6 +36,8 @@ public class CryptonoteJob
     {
         { CryptonightHashType.RandomX, (realm, seedHex, data, result, _) => RandomX.CalculateHash(realm, seedHex, data, result) },
         { CryptonightHashType.RandomARQ, (realm, seedHex, data, result, _) => RandomARQ.CalculateHash(realm, seedHex, data, result) },
+        { CryptonightHashType.Panthera, (realm, seedHex, data, result, _) => Panthera.CalculateHash(realm, seedHex, data, result) },
+        { CryptonightHashType.RandomXSCash, (realm, seedHex, data, result, _) => RandomXSCash.CalculateHash(realm, seedHex, data, result) },
         { CryptonightHashType.Cryptonight0, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_0, height) },
         { CryptonightHashType.Cryptonight1, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_1, height) },
         { CryptonightHashType.Cryptonight2, (_, _, data, result, height) => Cryptonight.CryptonightHash(data, result, CN_2, height) },
@@ -98,8 +100,6 @@ public class CryptonoteJob
 
         if(padLength > 0)
             bytes.CopyTo(padded.Slice(padLength, bytes.Length));
-        else
-            bytes.Slice(bytes.Length - padded.Length, padded.Length).CopyTo(padded);
 
         padded = padded[..size];
         padded.Reverse();
@@ -171,7 +171,7 @@ public class CryptonoteJob
 
         var headerHashString = headerHash.ToHexString();
         if(headerHashString != workerHash)
-            throw new StratumException(StratumError.MinusOne, "bad hash");
+            throw new StratumException(StratumError.MinusOne, $"bad hash [generated: {headerHashString}, received: {workerHash}]");
 
         // check difficulty
         var headerValue = headerHash.ToBigInteger();
@@ -209,9 +209,9 @@ public class CryptonoteJob
         {
             // Compute block hash
             Span<byte> blockHash = stackalloc byte[32];
-            
+
             // Not all Cryptonote coins are equal
-            if(blobType == ZephyrConstants.BlobType)
+            if(blobType == ZephyrConstants.BlobType || blobType == ScalaConstants.ScalaBlobType)
                 CryptonoteBindings.GetBlockId(blob, blockHash, blobType);
             else
                 ComputeBlockHash(blobConverted, blockHash);

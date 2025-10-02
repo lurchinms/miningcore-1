@@ -183,6 +183,54 @@ public class CryptonoteJobManager : JobManagerBase<CryptonoteJob>
 
                 break;
             }
+
+            case CryptonightHashType.Panthera:
+            {
+                // detect seed hash change
+                if(currentSeedHash != blockTemplate.SeedHash)
+                {
+                    logger.Info(()=> $"Detected new seed hash {blockTemplate.SeedHash} starting @ height {blockTemplate.Height}");
+                    if(poolConfig.EnableInternalStratum == true)
+                    {
+                        Panthera.WithLock(() =>
+                        {
+                            // delete old seed
+                            if(currentSeedHash != null)
+                                Panthera.DeleteSeed(randomXRealm, currentSeedHash);
+                            // activate new one
+                            currentSeedHash = blockTemplate.SeedHash;
+                            Panthera.CreateSeed(randomXRealm, currentSeedHash, randomXFlagsOverride, randomXFlagsAdd, extraPoolConfig.RandomXVMCount);
+                        });
+                    }
+                    else
+                        currentSeedHash = blockTemplate.SeedHash;
+                }
+                break;
+            }
+
+            case CryptonightHashType.RandomXSCash:
+            {
+                // detect seed hash change
+                if(currentSeedHash != blockTemplate.SeedHash)
+                {
+                    logger.Info(()=> $"Detected new seed hash {blockTemplate.SeedHash} starting @ height {blockTemplate.Height}");
+                    if(poolConfig.EnableInternalStratum == true)
+                    {
+                        RandomXSCash.WithLock(() =>
+                        {
+                            // delete old seed
+                            if(currentSeedHash != null)
+                                RandomXSCash.DeleteSeed(randomXRealm, currentSeedHash);
+                            // activate new one
+                            currentSeedHash = blockTemplate.SeedHash;
+                            RandomXSCash.CreateSeed(randomXRealm, currentSeedHash, randomXFlagsOverride, randomXFlagsAdd, extraPoolConfig.RandomXVMCount);
+                        });
+                    }
+                    else
+                        currentSeedHash = blockTemplate.SeedHash;
+                }
+                break;
+            }
         }
     }
 
@@ -624,7 +672,7 @@ public class CryptonoteJobManager : JobManagerBase<CryptonoteJob>
 
         if(poolConfig.EnableInternalStratum == true)
         {
-            // make sure we have a current light cache
+            // make sure we have a current seed
             using var timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
 
             do

@@ -446,7 +446,9 @@ public class ProgpowPool : PoolBase
 
         if(connection.Context.ApplyPendingDifficulty())
         {
-            var minerJobParams = CreateWorkerJob(connection, currentJobParams.CleanJobs);
+            bool cleanJob = (currentJobParams.CleanJobs) ? !currentJobParams.CleanJobs : currentJobParams.CleanJobs;
+
+            var minerJobParams = CreateWorkerJob(connection, cleanJob);
             await connection.NotifyAsync(ProgpowStratumMethods.SetDifficulty, new object[] { createEncodeTarget(connection.Context.Difficulty) });
             await connection.NotifyAsync(ProgpowStratumMethods.MiningNotify, minerJobParams);
         }

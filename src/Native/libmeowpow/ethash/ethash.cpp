@@ -24,9 +24,12 @@ namespace ethash
     constexpr static int light_cache_init_size = 1 << 24;
     constexpr static int light_cache_growth = 1 << 17;
     constexpr static int light_cache_rounds = 3;
-    constexpr static int full_dataset_init_size = 1 << 30;
+    constexpr static unsigned int full_dataset_init_size = 1U << 30;
     constexpr static int full_dataset_growth = 1 << 23;
     constexpr static int full_dataset_item_parents = 512;
+
+    //MeowPow Dag Change
+    constexpr static int meowpow_dagchange_epoch = 110;
 
     // Verify constants:
     static_assert(sizeof(hash512) == ETHASH_LIGHT_CACHE_ITEM_SIZE, "");
@@ -135,8 +138,14 @@ namespace ethash
             static_assert(sizeof(epoch_context_full) < sizeof(hash512), "epoch_context too big");
             static constexpr size_t context_alloc_size = sizeof(hash512);
 
-            const int light_cache_num_items = calculate_light_cache_num_items(epoch_number);
-            const int full_dataset_num_items = calculate_full_dataset_num_items(epoch_number);
+            int meow_epoch = epoch_number;
+            if (epoch_number >= meowpow_dagchange_epoch)
+            {
+				// note, int truncates, it doesnt round, 10 == 10.5. So this is ok.
+				meow_epoch = epoch_number*4; //This should pass 4gb DAG size
+            }
+            const int light_cache_num_items = calculate_light_cache_num_items(meow_epoch);
+            const int full_dataset_num_items = calculate_full_dataset_num_items(meow_epoch);
             const size_t light_cache_size = get_light_cache_size(light_cache_num_items);
             const size_t full_dataset_size =
                 full ? static_cast<size_t>(full_dataset_num_items) * sizeof(hash1024) : progpow::l1_cache_size;

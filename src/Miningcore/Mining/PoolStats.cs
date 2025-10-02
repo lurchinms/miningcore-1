@@ -4,6 +4,6 @@ public class PoolStats
 {
     public DateTime? LastPoolBlockTime { get; set; }
     public int ConnectedMiners { get; set; }
-    public ulong PoolHashrate { get; set; }
-    public int SharesPerSecond { get; set; }
+    public double PoolHashrate { get; set; }
+    public double SharesPerSecond { get; set; }
 }

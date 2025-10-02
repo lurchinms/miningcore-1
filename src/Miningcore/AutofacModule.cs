@@ -14,6 +14,7 @@ using Miningcore.Blockchain.Handshake;
 using Miningcore.Blockchain.Kaspa;
 using Miningcore.Blockchain.Nexa;
 using Miningcore.Blockchain.Progpow;
+using Miningcore.Blockchain.Satoshicash;
 using Miningcore.Blockchain.Warthog;
 using Miningcore.Blockchain.Xelis;
 using Miningcore.Blockchain.Zano;
@@ -237,6 +238,11 @@ public class AutofacModule : Module
         // Progpow
 
         builder.RegisterType<ProgpowJobManager>();
+
+        //////////////////////
+        // Satoshicash
+
+        builder.RegisterType<SatoshicashJobManager>();
 
         //////////////////////
         // Warthog

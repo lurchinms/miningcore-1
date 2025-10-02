@@ -37,6 +37,9 @@ public static unsafe class Multihash
     [DllImport("libmultihash", EntryPoint = "phi_export", CallingConvention = CallingConvention.Cdecl)]
     public static extern void phi(byte* input, void* output, uint inputLength);
 
+    [DllImport("libmultihash", EntryPoint = "phi2_export", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void phi2(byte* input, void* output, uint inputLength);
+
     [DllImport("libmultihash", EntryPoint = "x11_export", CallingConvention = CallingConvention.Cdecl)]
     public static extern void x11(byte* input, void* output, uint inputLength);
 
@@ -72,6 +75,9 @@ public static unsafe class Multihash
 
     [DllImport("libmultihash", EntryPoint = "kezzak_export", CallingConvention = CallingConvention.Cdecl)]
     public static extern void kezzak(byte* input, void* output, uint inputLength);
+
+    [DllImport("libmultihash", EntryPoint = "keccak512_export", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void keccak512(byte* input, void* output, uint inputLength);
 
     [DllImport("libmultihash", EntryPoint = "bcrypt_export", CallingConvention = CallingConvention.Cdecl)]
     public static extern void bcrypt(byte* input, void* output, uint inputLength);
@@ -193,6 +199,9 @@ public static unsafe class Multihash
     [DllImport("libmultihash", EntryPoint = "cpupower_export", CallingConvention = CallingConvention.Cdecl)]
     public static extern void cpupower(byte* input, void* output, uint inputLength);
 
+    [DllImport("libmultihash", EntryPoint = "megabtx_export", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void megabtx(byte* input, void* output, uint inputLength);
+
     [DllImport("libmultihash", EntryPoint = "power2b_export", CallingConvention = CallingConvention.Cdecl)]
     public static extern void power2b(byte* input, void* output, uint inputLength);
 
@@ -201,6 +210,12 @@ public static unsafe class Multihash
 
     [DllImport("libmultihash", EntryPoint = "yespowerIC_export", CallingConvention = CallingConvention.Cdecl)]
     public static extern void yespowerIC(byte* input, void* output, uint inputLength);
+
+    [DllImport("libmultihash", EntryPoint = "yespowerLTNCG_export", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void yespowerLTNCG(byte* input, void* output, uint inputLength);
+
+    [DllImport("libmultihash", EntryPoint = "yespowerMGPC_export", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void yespowerMGPC(byte* input, void* output, uint inputLength);
 
     [DllImport("libmultihash", EntryPoint = "yespowerR16_export", CallingConvention = CallingConvention.Cdecl)]
     public static extern void yespowerR16(byte* input, void* output, uint inputLength);

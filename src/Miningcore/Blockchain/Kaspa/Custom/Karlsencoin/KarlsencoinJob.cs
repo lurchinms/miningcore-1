@@ -15,7 +15,7 @@ public class KarlsencoinJob : KaspaJob
     {
     }
 
-    protected override Span<byte> SerializeCoinbase(Span<byte> prePowHash, long timestamp, ulong nonce)
+    protected override void SerializeCoinbase(ReadOnlySpan<byte> prePowHash, long timestamp, ulong nonce, Span<byte> result)
     {
         using(var stream = new MemoryStream())
         {
@@ -24,15 +24,12 @@ public class KarlsencoinJob : KaspaJob
             stream.Write(new byte[32]); // 32 zero bytes padding
             stream.Write(BitConverter.GetBytes(nonce));
 
+            var streamBytes = (Span<byte>) stream.ToArray();
+
             if(shareHasher is not FishHashKarlsen)
-            {
-                Span<byte> hashBytes = stackalloc byte[32];
-                coinbaseHasher.Digest(stream.ToArray(), hashBytes);
-                
-                return (Span<byte>) hashBytes.ToArray();
-            }
+                coinbaseHasher.Digest(streamBytes, result);
             else
-                return (Span<byte>) stream.ToArray();
+                streamBytes.CopyTo(result);
         }
     }
 
@@ -42,12 +39,18 @@ public class KarlsencoinJob : KaspaJob
 
         BlockTemplate.Header.Nonce = Convert.ToUInt64(nonce, 16);
 
-        var prePowHashBytes = SerializeHeader(BlockTemplate.Header, true);
-        var coinbaseBytes = SerializeCoinbase(prePowHashBytes, BlockTemplate.Header.Timestamp, BlockTemplate.Header.Nonce);
+        Span<byte> coinbaseBytes = stackalloc byte[(shareHasher is not FishHashKarlsen) ? 32 : KarlsencoinConstants.CoinbaseSize];
+        SerializeCoinbase(prePowHashBytes, BlockTemplate.Header.Timestamp, BlockTemplate.Header.Nonce, coinbaseBytes);
+
         Span<byte> hashCoinbaseBytes = stackalloc byte[32];
 
         if(shareHasher is not FishHashKarlsen)
-            shareHasher.Digest(ComputeCoinbase(prePowHashBytes, coinbaseBytes), hashCoinbaseBytes);
+        {
+            Span<byte> matrixBytes = stackalloc byte[32];
+            ComputeCoinbase(prePowHashBytes, coinbaseBytes, matrixBytes);
+
+            shareHasher.Digest(matrixBytes, hashCoinbaseBytes);
+        }
         else
             shareHasher.Digest(coinbaseBytes, hashCoinbaseBytes);
 
@@ -94,7 +97,8 @@ public class KarlsencoinJob : KaspaJob
 
         if(isBlockCandidate)
         {
-            var hashBytes = SerializeHeader(BlockTemplate.Header, false);
+            Span<byte> hashBytes = stackalloc byte[32];
+            SerializeHeader(BlockTemplate.Header, hashBytes, false);
 
             result.IsBlockCandidate = true;
             result.BlockHash = hashBytes.ToHexString();

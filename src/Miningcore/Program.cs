@@ -34,7 +34,10 @@ using Miningcore.Crypto.Hashing.Ethash.Ubqhash;
 using Miningcore.Crypto.Hashing.Progpow.Firopow;
 using Miningcore.Crypto.Hashing.Progpow.Kawpow;
 using Miningcore.Crypto.Hashing.Progpow.Meowpow;
+using Miningcore.Crypto.Hashing.Progpow.Merakipow;
+using Miningcore.Crypto.Hashing.Progpow.Phihash;
 using Miningcore.Crypto.Hashing.Progpow.ProgpowZ;
+using Miningcore.Crypto.Hashing.Progpow.Sccpow;
 using Miningcore.Extensions;
 using Miningcore.Messaging;
 using Miningcore.Mining;
@@ -638,19 +641,20 @@ public class Program : BackgroundService
 ");
         Console.WriteLine(" https://github.com/blackmennewstyle/miningcore\n");
         Console.WriteLine(" Donate to one of these addresses to support the project:\n");
-        Console.WriteLine(" ETH  - 0xbC059e88A4dD11c2E882Fc6B83F8Ec12E4CCCFad");
-        Console.WriteLine(" BTC  - 16xvkGfG9nrJSKKo5nGWphP8w4hr2ZzVuw");
-        Console.WriteLine(" LTC  - LLs76baYT7iMqQhizxtBC96Cy48iX3Eh1p");
-        Console.WriteLine(" DOGE - DFuvDSFh4N3SiXGDnye2Vbc8kqvMHbyQE1");
-        Console.WriteLine(" KAS  - kaspa:qpmf0wyu7c5z4l82ax9cfc5ughwk2f9lgu8uckkqrrpjqkxuk7yrga5nntvgn");
-        Console.WriteLine(" CCX  - ccx7S4B3gBeH1SGWCfqZp3NM7Vavg7H3S8ovJn8fU4bwC4vU7ChWfHtbNzifhrpbJ74bMDxj4KZFTcznTfsucCEg1Kgv7zbNgs");
-        Console.WriteLine(" FIRO - a5AsoTSkfPHQ3SUmR6binG1XW7oQQoFNU1");
-        Console.WriteLine(" ERGO - 9gYyuZzaSw3TiCtUkSRuS3XVDUv41EFs3dtNCFGqiEwHqpb7gkF");
-        Console.WriteLine(" WART - 7795fc0fe93e7e4e232a212f00bdc8885c580a5666d39a0d");
-        Console.WriteLine(" XMR  - 483zaHtMRfM7rw1dXgebhWaRR8QLgAF6w4BomAV319FVVHfdbYTLVuBRc4pQgRAnRpfy6CXvvwngK4Lo3mRKE29RRx3Jb5c");
-        Console.WriteLine(" XEL  - xel:ajnsfv065qusndt0hfsngecrnf5690drmqmc0uq0etlx8zjlcyzqq2slgvt");
-        Console.WriteLine(" CTXC - 0xbb60200d5151a4a0f9a75014e04cf61a0a9f0daf");
-        Console.WriteLine(" ZANO - ZxDKT1aqiEXPA5cDADtYEfMR1oXsRd68bby4nzUvVmnjHzzrfvjwhNdQ9yiWNeGutzg9LZdwsbP2FGB1gNpZXiYY1fCfpw33c");
+        Console.WriteLine(" ETH   - 0xbC059e88A4dD11c2E882Fc6B83F8Ec12E4CCCFad");
+        Console.WriteLine(" BTC   - 16xvkGfG9nrJSKKo5nGWphP8w4hr2ZzVuw");
+        Console.WriteLine(" LTC   - LLs76baYT7iMqQhizxtBC96Cy48iX3Eh1p");
+        Console.WriteLine(" DOGE  - DFuvDSFh4N3SiXGDnye2Vbc8kqvMHbyQE1");
+        Console.WriteLine(" KAS   - kaspa:qpmf0wyu7c5z4l82ax9cfc5ughwk2f9lgu8uckkqrrpjqkxuk7yrga5nntvgn");
+        Console.WriteLine(" CCX   - ccx7S4B3gBeH1SGWCfqZp3NM7Vavg7H3S8ovJn8fU4bwC4vU7ChWfHtbNzifhrpbJ74bMDxj4KZFTcznTfsucCEg1Kgv7zbNgs");
+        Console.WriteLine(" FIRO  - a5AsoTSkfPHQ3SUmR6binG1XW7oQQoFNU1");
+        Console.WriteLine(" ERGO  - 9gYyuZzaSw3TiCtUkSRuS3XVDUv41EFs3dtNCFGqiEwHqpb7gkF");
+        Console.WriteLine(" WART  - 7795fc0fe93e7e4e232a212f00bdc8885c580a5666d39a0d");
+        Console.WriteLine(" XMR   - 483zaHtMRfM7rw1dXgebhWaRR8QLgAF6w4BomAV319FVVHfdbYTLVuBRc4pQgRAnRpfy6CXvvwngK4Lo3mRKE29RRx3Jb5c");
+        Console.WriteLine(" XEL   - xel:ajnsfv065qusndt0hfsngecrnf5690drmqmc0uq0etlx8zjlcyzqq2slgvt");
+        Console.WriteLine(" CTXC  - 0xbb60200d5151a4a0f9a75014e04cf61a0a9f0daf");
+        Console.WriteLine(" ZANO  - ZxDKT1aqiEXPA5cDADtYEfMR1oXsRd68bby4nzUvVmnjHzzrfvjwhNdQ9yiWNeGutzg9LZdwsbP2FGB1gNpZXiYY1fCfpw33c");
+        Console.WriteLine(" SCASH - scash1qe6dhv8kncz08jtqukyps4l2n83z2umewanlmas");
         Console.WriteLine();
     }
 
@@ -828,13 +832,25 @@ public class Program : BackgroundService
         // Configure RandomARQ
         RandomARQ.messageBus = messageBus;
 
+        // Configure Panthera
+        Panthera.messageBus = messageBus;
+
+        // Configure RandomXSCash
+        RandomXSCash.messageBus = messageBus;
+
         // Configure NexaPow
         Miningcore.Crypto.Hashing.Algorithms.NexaPow.messageBus = messageBus;
-        
+
+        // Configure AstroBWTv3
+        AstroBWTv3.messageBus = messageBus;
+
         // Configure BeamHash
         BeamHash.messageBus = messageBus;
-        
-        // Configure FiroPow
+
+        // Configure CortexCuckooCycle
+        CortexCuckooCycle.messageBus = messageBus;
+
+        // Configure Firopow
         Miningcore.Crypto.Hashing.Progpow.Firopow.Cache.messageBus = messageBus;
         
         // Configure Kawpow
@@ -843,8 +859,17 @@ public class Program : BackgroundService
         // Configure Meowpow
         Miningcore.Crypto.Hashing.Progpow.Meowpow.Cache.messageBus = messageBus;
 
+        // Configure Merakipow
+        Miningcore.Crypto.Hashing.Progpow.Merakipow.Cache.messageBus = messageBus;
+
+        // Configure Phihash
+        Miningcore.Crypto.Hashing.Progpow.Phihash.Cache.messageBus = messageBus;
+
         // Configure ProgpowZ
         Miningcore.Crypto.Hashing.Progpow.ProgpowZ.Cache.messageBus = messageBus;
+
+        // Configure SccPow
+        Miningcore.Crypto.Hashing.Progpow.Sccpow.Cache.messageBus = messageBus;
     }
 
     private static async Task ConfigurePostgresCompatibilityOptions(IServiceProvider services)

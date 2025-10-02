@@ -19,7 +19,7 @@ public class KaspaXoShiRo256PlusPlus
 {
     private ulong[] s = new ulong[4];
 
-    public KaspaXoShiRo256PlusPlus(Span<byte> prePowHash)
+    public KaspaXoShiRo256PlusPlus(ReadOnlySpan<byte> prePowHash)
     {
         Contract.Requires<ArgumentException>(prePowHash.Length >= 32);
         
@@ -61,6 +61,7 @@ public class KaspaJob
     public double Difficulty { get; protected set; }
     public string JobId { get; protected set; }
     public uint256 blockTargetValue { get; protected set; }
+    public byte[] prePowHashBytes { get; protected set; }
     
     protected object[] jobParams;
     private readonly ConcurrentDictionary<string, bool> submissions = new(StringComparer.OrdinalIgnoreCase);
@@ -89,7 +90,7 @@ public class KaspaJob
         return submissions.TryAdd(key, true);
     }
     
-    protected virtual ushort[][] GenerateMatrix(Span<byte> prePowHash)
+    protected virtual ushort[][] GenerateMatrix(ReadOnlySpan<byte> prePowHash)
     {
         ushort[][] matrix = new ushort[64][];
         for (int i = 0; i < 64; i++)
@@ -154,7 +155,7 @@ public class KaspaJob
         return rank;
     }
     
-    protected virtual Span<byte> ComputeCoinbase(Span<byte> prePowHash, Span<byte> data)
+    protected virtual void ComputeCoinbase(ReadOnlySpan<byte> prePowHash, ReadOnlySpan<byte> data, Span<byte> result)
     {
         ushort[][] matrix = GenerateMatrix(prePowHash);
         ushort[] vector = new ushort[64];
@@ -175,19 +176,14 @@ public class KaspaJob
             product[i] = (ushort)(sum >> 10);
         }
 
-        byte[] res = new byte[32];
         for (int i = 0; i < 32; i++)
         {
-            res[i] = (byte)(data[i] ^ ((byte)(product[2 * i] << 4) | (byte)product[2 * i + 1]));
+            result[i] = (byte)(data[i] ^ ((byte)(product[2 * i] << 4) | (byte)product[2 * i + 1]));
         }
-        
-        return (Span<byte>) res;
     }
     
-    protected virtual Span<byte> SerializeCoinbase(Span<byte> prePowHash, long timestamp, ulong nonce)
+    protected virtual void SerializeCoinbase(ReadOnlySpan<byte> prePowHash, long timestamp, ulong nonce, Span<byte> result)
     {
-        Span<byte> hashBytes = stackalloc byte[32];
-        
         using(var stream = new MemoryStream())
         {
             stream.Write(prePowHash);
@@ -195,17 +191,14 @@ public class KaspaJob
             stream.Write(new byte[32]); // 32 zero bytes padding
             stream.Write(BitConverter.GetBytes(nonce));
             
-            coinbaseHasher.Digest(stream.ToArray(), hashBytes);
-            
-            return (Span<byte>) hashBytes.ToArray();
+            coinbaseHasher.Digest(stream.ToArray(), result);
         }
     }
     
-    protected virtual Span<byte> SerializeHeader(kaspad.RpcBlockHeader header, bool isPrePow = true)
+    protected virtual void SerializeHeader(kaspad.RpcBlockHeader header, Span<byte> result, bool isPrePow = true)
     {
         ulong nonce = isPrePow ? 0 : header.Nonce;
         long timestamp = isPrePow ? 0 : header.Timestamp;
-        Span<byte> hashBytes = stackalloc byte[32];
         //var blockHashBytes = Encoding.UTF8.GetBytes(KaspaConstants.CoinbaseBlockHash);
         
         using(var stream = new MemoryStream())
@@ -250,9 +243,7 @@ public class KaspaJob
             
             stream.Write(header.PruningPoint.HexToByteArray());
 
-            blockHeaderHasher.Digest(stream.ToArray(), hashBytes);
-            
-            return (Span<byte>) hashBytes.ToArray();
+            blockHeaderHasher.Digest(stream.ToArray(), result);
         }
     }
 
@@ -278,11 +269,14 @@ public class KaspaJob
 
         BlockTemplate.Header.Nonce = Convert.ToUInt64(nonce, 16);
 
-        var prePowHashBytes = SerializeHeader(BlockTemplate.Header, true);
-        var coinbaseBytes = SerializeCoinbase(prePowHashBytes, BlockTemplate.Header.Timestamp, BlockTemplate.Header.Nonce);
+        Span<byte> coinbaseBytes = stackalloc byte[32];
+        SerializeCoinbase(prePowHashBytes, BlockTemplate.Header.Timestamp, BlockTemplate.Header.Nonce, coinbaseBytes);
+
+        Span<byte> matrixBytes = stackalloc byte[32];
+        ComputeCoinbase(prePowHashBytes, coinbaseBytes, matrixBytes);
 
         Span<byte> hashCoinbaseBytes = stackalloc byte[32];
-        shareHasher.Digest(ComputeCoinbase(prePowHashBytes, coinbaseBytes), hashCoinbaseBytes);
+        shareHasher.Digest(matrixBytes, hashCoinbaseBytes);
 
         var targetHashCoinbaseBytes = new Target(new BigInteger(hashCoinbaseBytes.ToNewReverseArray(), true, true));
         var hashCoinbaseBytesValue = targetHashCoinbaseBytes.ToUInt256();
@@ -327,7 +321,8 @@ public class KaspaJob
 
         if(isBlockCandidate)
         {
-            var hashBytes = SerializeHeader(BlockTemplate.Header, false);
+            Span<byte> hashBytes = stackalloc byte[32];
+            SerializeHeader(BlockTemplate.Header, hashBytes, false);
 
             result.IsBlockCandidate = true;
             result.BlockHash = hashBytes.ToHexString();
@@ -377,8 +372,11 @@ public class KaspaJob
         Difficulty = KaspaUtils.TargetToDifficulty(target.ToBigInteger()) * (double) KaspaConstants.MinHash;
         blockTargetValue = target.ToUInt256();
         BlockTemplate = blockTemplate;
+
+        prePowHashBytes = new byte[32];
+        SerializeHeader(blockTemplate.Header, prePowHashBytes);
         
-        var (largeJob, regularJob) = SerializeJobParamsData(SerializeHeader(blockTemplate.Header));
+        var (largeJob, regularJob) = SerializeJobParamsData(prePowHashBytes);
         jobParams = new object[]
         {
             JobId,

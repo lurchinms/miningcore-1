@@ -91,7 +91,7 @@ public class HandshakeJobManager : BitcoinJobManagerBase<HandshakeJob>
 
                 job.Init(blockTemplate, NextJobId(),
                     poolConfig, extraPoolConfig, clusterConfig, clock, poolConfig?.Address, network,
-                    ShareMultiplier, coin.CoinbaseHasherValue, coin.HeaderHasherValue,
+                    ShareMultiplier, coin.CoinbaseHasherValue, coin.HeaderHasherValue, coin.ShareHasherValue,
                     !isPoS ? coin.BlockHasherValue : coin.PoSBlockHasherValue ?? coin.BlockHasherValue);
 
                 if(isNew)

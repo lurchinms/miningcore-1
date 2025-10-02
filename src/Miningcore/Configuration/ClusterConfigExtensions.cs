@@ -115,6 +115,8 @@ public partial class BitcoinTemplate
                 return HeaderHasherValue.GetType().Name + " + " + ShareHasherValue.GetType().Name;
             case "KCN":
                 return HeaderHasherValue.GetType().Name;
+            case "SCASH":
+                return CryptonightHashType.RandomXSCash.ToString().ToLower();
             default:
                 var hash = HeaderHasherValue;
 
@@ -262,7 +264,13 @@ public partial class EthereumCoinTemplate
 
     public override string GetAlgorithmName()
     {
-        return Ethash.AlgoName;
+        switch(Symbol)
+        {
+            case "CTXC":
+                return "Cortex Cuckoo Cycle";
+            default:
+                return Ethash.AlgoName;
+        }
     }
 
     #endregion
@@ -290,7 +298,9 @@ public partial class KaspaCoinTemplate
             case "PYI":
                 return "Pyrinhash";
             case "SPR":
-                return " SpectreX";
+                return "SpectreX";
+            case "WALA":
+                return "Walahash";
             default:
                 // TODO: return variant
                 return "kHeavyHash";

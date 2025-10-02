@@ -3,6 +3,8 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "phi.h"
+
 #include "sha3/sph_skein.h"
 #include "sha3/sph_jh.h"
 #include "sha3/sph_cubehash.h"

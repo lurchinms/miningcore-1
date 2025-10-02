@@ -34,6 +34,9 @@ public class ApiCoinConfig
     public string Telegram { get; set; }
 
     [System.Text.Json.Serialization.JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string Github { get; set; }
+
+    [System.Text.Json.Serialization.JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string CanonicalName { get; set; }
 
     [System.Text.Json.Serialization.JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -48,12 +51,21 @@ public class ApiCoinConfig
     public object VolumeChange24H { get; set; }
 }
 
+public class ApiPoolPayoutSchemeConfig
+{
+    [System.Text.Json.Serialization.JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public decimal? Factor { get; set; } = 2.0m;
+
+    [System.Text.Json.Serialization.JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public decimal? BlockFinderPercentage { get; set; } = 5.0m;
+}
+
 public class ApiPoolPaymentProcessingConfig
 {
     public bool Enabled { get; set; }
     public decimal MinimumPayment { get; set; } // in pool-base-currency (ie. Bitcoin, not Satoshis)
     public string PayoutScheme { get; set; }
-    public JToken PayoutSchemeConfig { get; set; }
+    public ApiPoolPayoutSchemeConfig PayoutSchemeConfig { get; set; }
 
     [Newtonsoft.Json.JsonExtensionData]
     public IDictionary<string, object> Extra { get; set; }

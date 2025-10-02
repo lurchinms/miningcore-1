@@ -266,7 +266,7 @@ public class KaspaPayoutHandler : PayoutHandlerBase,
                                             .Where(x => x.Contains((string) block.Hash))
                                             .ToList();
 
-                                        // We need to know if our initial blockHah is in the redMerges
+                                        // We need to know if our initial blockHah is in the blueMerges
                                         var mergeSetBluesHashes = responseChildren.GetBlockResponse.Block.VerboseData.MergeSetBluesHashes
                                             .Where(x => x.Contains((string) block.Hash))
                                             .ToList();

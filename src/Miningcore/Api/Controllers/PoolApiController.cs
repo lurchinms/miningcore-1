@@ -77,6 +77,12 @@ public class PoolApiController : ApiControllerBase
                 var lastBlockTime = await cf.Run(con => blocksRepo.GetLastPoolBlockTimeAsync(con, config.Id, ct));
                 result.LastPoolBlockTime = lastBlockTime;
 
+                var payoutConfig = config.PaymentProcessing;
+                result.PaymentProcessing.PayoutSchemeConfig = payoutConfig?.PayoutSchemeConfig.ToObject<ApiPoolPayoutSchemeConfig>();
+                // display block finder percentage only if PPLNSBF is activated
+                if(payoutConfig?.PayoutScheme != PayoutScheme.PPLNSBF)
+                    result.PaymentProcessing.PayoutSchemeConfig.BlockFinderPercentage = null;
+
                 if(lastBlockTime.HasValue)
                 {
                     var startTime = lastBlockTime.Value;
@@ -175,6 +181,12 @@ public class PoolApiController : ApiControllerBase
         response.Pool.BlockReward = await cf.Run(con => blocksRepo.GetLastConfirmedBlockRewardAsync(con, pool.Id, ct));
         var lastBlockTime = await cf.Run(con => blocksRepo.GetLastPoolBlockTimeAsync(con, pool.Id, ct));
         response.Pool.LastPoolBlockTime = lastBlockTime;
+
+        var payoutConfig = pool.PaymentProcessing;
+        response.Pool.PaymentProcessing.PayoutSchemeConfig = payoutConfig?.PayoutSchemeConfig.ToObject<ApiPoolPayoutSchemeConfig>();
+        // display block finder percentage only if PPLNSBF is activated
+        if(payoutConfig?.PayoutScheme != PayoutScheme.PPLNSBF)
+            response.Pool.PaymentProcessing.PayoutSchemeConfig.BlockFinderPercentage = null;
 
         if(lastBlockTime.HasValue)
         {

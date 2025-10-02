@@ -378,6 +378,9 @@ public class CryptonotePool : PoolBase
         {
             case CryptonightHashType.RandomX:
                 return $"rx/{manager.Coin.HashVariant}";
+            case CryptonightHashType.Panthera:
+            case CryptonightHashType.RandomXSCash:
+                return $"{manager.Coin.Hash.ToString().ToLower()}";
         }
 
         return null;
@@ -423,7 +426,7 @@ public class CryptonotePool : PoolBase
                     
                     // For some reasons, we would never send a reply here :/
                     // But the official XMRig documentation is explicit, we should reply: https://xmrig.com/docs/extensions/keepalive
-                    // XMRig is such a gift, i wish more mining pool operators were like them and valued open-source, the same way the XMRig devs do
+                    // XMRig is such a gift, i wish more mining pool operators value open-source, the same way the XMRig devs do
 
                     // Nicehash's stupid validator insists on "error" property present
                     // in successful responses which is a violation of the JSON-RPC spec

@@ -7,6 +7,8 @@ public class BitcoinPoolConfigExtra
 {
     public BitcoinAddressType AddressType { get; set; } = BitcoinAddressType.Legacy;
 
+    public string BechPrefix { get; set; } = "bc";
+
     /// <summary>
     /// Maximum number of tracked jobs.
     /// Default: 12 - you should increase this value if your blockrefreshinterval is higher than 300ms

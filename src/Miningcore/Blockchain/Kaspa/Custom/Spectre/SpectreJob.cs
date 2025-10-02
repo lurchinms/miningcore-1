@@ -21,7 +21,7 @@ public class SpectreJob : KaspaJob
         this.astroBWTv3Hasher = new AstroBWTv3();
     }
 
-    protected override Span<byte> SerializeCoinbase(Span<byte> prePowHash, long timestamp, ulong nonce)
+    protected override void SerializeCoinbase(ReadOnlySpan<byte> prePowHash, long timestamp, ulong nonce, Span<byte> result)
     {
         using(var stream = new MemoryStream())
         {
@@ -30,7 +30,8 @@ public class SpectreJob : KaspaJob
             stream.Write(new byte[32]); // 32 zero bytes padding
             stream.Write(BitConverter.GetBytes(nonce));
 
-            return (Span<byte>) stream.ToArray();
+            var streamBytes = (Span<byte>) stream.ToArray();
+            streamBytes.CopyTo(result);
         }
     }
 
@@ -40,8 +41,8 @@ public class SpectreJob : KaspaJob
 
         BlockTemplate.Header.Nonce = Convert.ToUInt64(nonce, 16);
 
-        var prePowHashBytes = SerializeHeader(BlockTemplate.Header, true);
-        var coinbaseRawBytes = SerializeCoinbase(prePowHashBytes, BlockTemplate.Header.Timestamp, BlockTemplate.Header.Nonce);
+        Span<byte> coinbaseRawBytes = stackalloc byte[SpectreConstants.CoinbaseSize];
+        SerializeCoinbase(prePowHashBytes, BlockTemplate.Header.Timestamp, BlockTemplate.Header.Nonce, coinbaseRawBytes);
 
         Span<byte> coinbaseBytes = stackalloc byte[32];
         coinbaseHasher.Digest(coinbaseRawBytes, coinbaseBytes);
@@ -49,8 +50,11 @@ public class SpectreJob : KaspaJob
         Span<byte> astroBWTv3Bytes = stackalloc byte[32];
         astroBWTv3Hasher.Digest(coinbaseBytes, astroBWTv3Bytes);
 
+        Span<byte> matrixBytes = stackalloc byte[32];
+        ComputeCoinbase(coinbaseRawBytes, astroBWTv3Bytes, matrixBytes);
+
         Span<byte> hashCoinbaseBytes = stackalloc byte[32];
-        shareHasher.Digest(ComputeCoinbase(coinbaseRawBytes, astroBWTv3Bytes), hashCoinbaseBytes);
+        shareHasher.Digest(matrixBytes, hashCoinbaseBytes);
 
         var targetHashCoinbaseBytes = new Target(new BigInteger(hashCoinbaseBytes.ToNewReverseArray(), true, true));
         var hashCoinbaseBytesValue = targetHashCoinbaseBytes.ToUInt256();
@@ -95,7 +99,8 @@ public class SpectreJob : KaspaJob
 
         if(isBlockCandidate)
         {
-            var hashBytes = SerializeHeader(BlockTemplate.Header, false);
+            Span<byte> hashBytes = stackalloc byte[32];
+            SerializeHeader(BlockTemplate.Header, hashBytes, false);
 
             result.IsBlockCandidate = true;
             result.BlockHash = hashBytes.ToHexString();
@@ -118,7 +123,10 @@ public class SpectreJob : KaspaJob
         blockTargetValue = target.ToUInt256();
         BlockTemplate = blockTemplate;
         
-        var (largeJob, regularJob) = SerializeJobParamsData(SerializeHeader(blockTemplate.Header));
+        prePowHashBytes = new byte[32];
+        SerializeHeader(blockTemplate.Header, prePowHashBytes);
+        
+        var (largeJob, regularJob) = SerializeJobParamsData(prePowHashBytes);
         jobParams = new object[]
         {
             JobId,

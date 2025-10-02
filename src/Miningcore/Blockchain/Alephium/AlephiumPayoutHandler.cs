@@ -566,7 +566,7 @@ public class AlephiumPayoutHandler : PayoutHandlerBase,
                     batchDestinations = groupingAmounts[j].Select(x => new Terminus
                     {
                         Address = x.Key,
-                        AttoAlphAmount = AlephiumUtils.ConvertNumberForApi(((extraPoolPaymentProcessingConfig?.KeepTransactionFees == false) ? x.Value * AlephiumConstants.SmallestUnit : (x.Value * AlephiumConstants.SmallestUnit) - ((estimatedGasAmount * AlephiumConstants.DefaultGasPrice) / groupingAmounts[j].Count))),
+                        AttoAlphAmount = AlephiumUtils.ConvertNumberForApi(((extraPoolPaymentProcessingConfig?.KeepTransactionFees == false) ? x.Value * AlephiumConstants.SmallestUnit : ((x.Value * AlephiumConstants.SmallestUnit) > ((estimatedGasAmount * AlephiumConstants.DefaultGasPrice) / groupingAmounts[j].Count) ? (x.Value * AlephiumConstants.SmallestUnit) - ((estimatedGasAmount * AlephiumConstants.DefaultGasPrice) / groupingAmounts[j].Count) : x.Value * AlephiumConstants.SmallestUnit))),
                     }).ToArray();
 
                     destinationsTransaction = new BuildSettlement

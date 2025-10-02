@@ -219,7 +219,7 @@ public abstract class BitcoinJobManagerBase<TJob> : JobManagerBase<TJob>
         }
     }
 
-    private async Task UpdateNetworkStatsAsync(CancellationToken ct)
+    protected virtual async Task UpdateNetworkStatsAsync(CancellationToken ct)
     {
         try
         {
@@ -339,7 +339,7 @@ public abstract class BitcoinJobManagerBase<TJob> : JobManagerBase<TJob>
         }
     }
 
-    private async Task UpdateNetworkStatsLegacyAsync(CancellationToken ct)
+    protected virtual async Task UpdateNetworkStatsLegacyAsync(CancellationToken ct)
     {
         try
         {
@@ -472,11 +472,35 @@ public abstract class BitcoinJobManagerBase<TJob> : JobManagerBase<TJob>
 
         // chain detection
         if(!hasLegacyDaemon)
-            network = (blockchainInfoResponse.Chain.ToLower() == "nexa") ? Network.Main : Network.GetNetwork(blockchainInfoResponse.Chain.ToLower());
+        {
+            // annoying special cases
+            switch(blockchainInfoResponse.Chain.ToLower())
+            {
+                // mainnet
+                case "nexa":
+                case "scash":
+                    network = Network.Main;
+                    break;
+
+                // testnet
+                case "nexatest":
+                case "scashtestnet":
+                    network = Network.TestNet;
+                    break;
+
+                // regtest
+                case "nexareg":
+                case "scashregtest":
+                    network = Network.RegTest;
+                    break;
+
+                default:
+                    network = Network.GetNetwork(blockchainInfoResponse.Chain.ToLower());
+                    break;
+            }
+        }
         else
             network = daemonInfoResponse.Testnet ? Network.TestNet : Network.Main;
-
-        PostChainIdentifyConfigure();
 
         // ensure pool owns wallet
         if(validateAddressResponse is not {IsValid: true})
@@ -535,6 +559,8 @@ public abstract class BitcoinJobManagerBase<TJob> : JobManagerBase<TJob>
             .Concat()
             .Subscribe();
 
+        PostChainIdentifyConfigure();
+
         SetupCrypto();
         SetupJobUpdates(ct);
     }
@@ -547,7 +573,7 @@ public abstract class BitcoinJobManagerBase<TJob> : JobManagerBase<TJob>
         switch(addressType.Value)
         {
             case BitcoinAddressType.BechSegwit:
-                return BitcoinUtils.BechSegwitAddressToDestination(poolConfig.Address, network);
+                return BitcoinUtils.BechSegwitAddressToDestination(poolConfig.Address, network, extraPoolConfig?.BechPrefix);
 
             case BitcoinAddressType.BCash:
                 return BitcoinUtils.BCashAddressToDestination(poolConfig.Address, network);

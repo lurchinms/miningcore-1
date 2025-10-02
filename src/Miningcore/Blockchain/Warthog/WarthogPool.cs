@@ -420,7 +420,11 @@ public class WarthogPool : PoolBase
 
         if(connection.Context.ApplyPendingDifficulty())
         {
-            var minerJobParams = CreateWorkerJob(connection, (bool) ((object[]) currentJobParams)[^1]);
+            var cleanJob = (bool) ((object[]) currentJobParams)[^1];
+            if(cleanJob)
+                cleanJob = !cleanJob;
+
+            var minerJobParams = CreateWorkerJob(connection, cleanJob);
 
             await connection.NotifyAsync(BitcoinStratumMethods.SetDifficulty, new object[] { connection.Context.Difficulty });
             await connection.NotifyAsync(BitcoinStratumMethods.MiningNotify, minerJobParams);

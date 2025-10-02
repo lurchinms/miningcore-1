@@ -18,6 +18,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "allium.h"
 #include "bcrypt.h"
 #include "keccak.h"
+#include "keccak512.h"
 #include "quark.h"
 #include "scryptjane.h"
 #include "scryptn.h"
@@ -55,6 +56,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "sha256dt.h"
 #include "hmq17.h"
 #include "phi.h"
+#include "phi2.h"
 #include "verthash/h2.h"
 #include "equi/equihashverify.h"
 #include "heavyhash/heavyhash.h"
@@ -65,6 +67,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "shake/cshake.h"
 #include "shake/shake.h"
 #include "flex/flex.h"
+#include "megabtx.h"
 #include "xelishash/xelishash.hpp"
 
 #ifdef _WIN32
@@ -136,6 +139,11 @@ extern "C" MODULE_API void phi_export(const char* input, char* output, uint32_t 
     phi_hash(input, output, input_len);
 }
 
+extern "C" MODULE_API void phi2_export(const char* input, char* output, uint32_t input_len)
+{
+    phi2_hash(input, output, input_len);
+}
+
 extern "C" MODULE_API void x11_export(const char* input, char* output, uint32_t input_len)
 {
 	x11_hash(input, output, input_len);
@@ -161,6 +169,11 @@ extern "C" MODULE_API void x15_export(const char* input, char* output, uint32_t 
 	x15_hash(input, output, input_len);
 }
 
+extern "C" MODULE_API void megabtx_export(const char* input, char* output, uint32_t input_len)
+{
+	megabtx_hash(input, output, input_len);
+}
+
 extern "C" MODULE_API void neoscrypt_export(const unsigned char* input, unsigned char* output, uint32_t profile)
 {
 	neoscrypt(input, output, profile);
@@ -176,6 +189,11 @@ extern "C" MODULE_API void scryptn_export(const char* input, char* output, uint3
 extern "C" MODULE_API void kezzak_export(const char* input, char* output, uint32_t input_len)
 {
 	keccak_hash(input, output, input_len);
+}
+
+extern "C" MODULE_API void keccak512_export(const char* input, char* output, uint32_t input_len)
+{
+	keccak512_hash(input, output, input_len);
 }
 
 extern "C" MODULE_API void bcrypt_export(const char* input, char* output, uint32_t input_len)
@@ -424,6 +442,16 @@ extern "C" MODULE_API void yespower_export(const char *input, char *output, uint
 extern "C" MODULE_API void yespowerIC_export(const char *input, char *output, uint32_t input_len)
 {
     yespowerIC_hash(input, output, input_len);
+}
+
+extern "C" MODULE_API void yespowerLTNCG_export(const char *input, char *output, uint32_t input_len)
+{
+    yespowerLTNCG_hash(input, output, input_len);
+}
+
+extern "C" MODULE_API void yespowerMGPC_export(const char *input, char *output, uint32_t input_len)
+{
+    yespowerMGPC_hash(input, output, input_len);
 }
 
 extern "C" MODULE_API void yespowerR16_export(const char *input, char *output, uint32_t input_len)

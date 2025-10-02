@@ -56,6 +56,9 @@
     <ClInclude Include="keccak.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="keccak512.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="neoscrypt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -165,6 +168,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Lyra2RE.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="megabtx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sponge.h">
@@ -341,6 +347,9 @@
     <ClInclude Include="phi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="phi2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="x16rv2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -502,6 +511,9 @@
     <ClCompile Include="keccak.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="keccak512.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="neoscrypt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -602,6 +614,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Lyra2RE.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="megabtx.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Sponge.c">
@@ -770,6 +785,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="phi.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="phi2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="x16rv2.c">

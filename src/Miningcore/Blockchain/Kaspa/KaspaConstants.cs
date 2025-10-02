@@ -54,6 +54,8 @@ public static class KarlsencoinConstants
     public const ulong FishHashForkHeightTestnet = 0;
     public const ulong FishHashPlusForkHeightTestnet = 43200;
     public const ulong FishHashPlusForkHeightMainnet = 26962009;
+
+    public const int CoinbaseSize = 80;
 }
 
 // Pyrin is definitely a scam, use at your own risk
@@ -68,6 +70,8 @@ public static class SpectreConstants
     public static readonly BigInteger Diff1b = BigInteger.Parse("00ffff0000000000000000000000000000000000000000000000000000000000", NumberStyles.HexNumber);
     public static readonly double Pow2xDiff1TargetNumZero = Math.Pow(2, Diff1TargetNumZero);
     public static BigInteger MinHash = BigInteger.One;
+
+    public const int CoinbaseSize = 80;
 }
 
 public enum KaspaBech32Prefix

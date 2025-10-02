@@ -432,7 +432,11 @@ public class ErgoPool : PoolBase
 
         if(context.ApplyPendingDifficulty())
         {
-            var minerJobParams = CreateWorkerJob(connection, (bool) currentJobParams[^1]);
+            var cleanJob = (bool) currentJobParams[^1];
+            if(cleanJob)
+                cleanJob = !cleanJob;
+
+            var minerJobParams = CreateWorkerJob(connection, cleanJob);
 
             await SendJob(connection, context, minerJobParams);
         }
